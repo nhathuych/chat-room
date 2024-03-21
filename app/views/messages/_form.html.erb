@@ -1,0 +1,11 @@
+<%= form_with(model: message, local: true) do |f| %>
+  <div class="field">
+    <%= f.text_area :body, placeholder: "Type your message", autocomplete: "off", class: "form-control" %>
+  </div>
+
+  <%= f.hidden_field :room_id, value: room.id %>
+
+  <div class="actions">
+    <%= f.submit "Send Message", class: "btn btn-primary" %>
+  </div>
+<% end %>
