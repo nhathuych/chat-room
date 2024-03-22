@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
   def create
     message = Message.new(message_params)
     message.user = current_user
-    message.save
+    message.save if message.valid?
 
     redirect_to request.referer
   end
