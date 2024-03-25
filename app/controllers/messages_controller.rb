@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
     message.user = current_user
     message.save if message.valid?
 
-    redirect_to request.referer
+    SendMessageJob.perform_later(message)
   end
 
   private

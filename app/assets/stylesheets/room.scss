@@ -2,7 +2,7 @@ a { text-decoration: none !important; }
 
 .chat-room {
   height: calc(100vh - 2rem);
-  overflow-y: hidden;
+  overflow-y: scroll;
 
   .message {
     min-height: 59px;
