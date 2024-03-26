@@ -1,18 +1,27 @@
 <div id="js-room-id" data-room-id="<%= @room&.id %>"></div>
 <div id="js-user-id" data-user-id="<%= current_user.id %>"></div>
 
-<div class="cointainer-fluid p-3 p-3">
+<div class="cointainer-fluid">
   <div class="row">
-    <div class="col-3">
-      <div class="mt-5">
-        <%= render 'form', room: Room.new %>
+    <div class="col-3 rooms-sidebar">
+
+      <div class="card border-0 mb-5">
+        <div class="card-body">
+          <small>Logged in as</small>
+          <b class="text-primary"><%= current_user.user_name %></b>
+        </div>
       </div>
+
+      <%= render 'form', room: Room.new %>
       <hr>
+
       <% @rooms.each do |room| %>
-        <%= link_to room_path(room.id) do %>
-          <div class="card mb-1">
+        <%= link_to room_path(room.id), class: 'room-link' do %>
+          <div class="card room-card border-0 mb-1 <%= 'active' if room == @room %>">
             <div class="card-body">
-              <%= room.name %>
+              <b class="room-name"><%= room.name %></b>
+              <br>
+              <small class="room-members"><%= room.users.pluck(:id).uniq.count %> members</small>
             </div>
           </div>
         <% end %>
@@ -22,21 +31,16 @@
     <div class="col-9">
       <% if @room.present? %>
         <div class="chat-room">
-          <nav class="navbar navbar-light bg-light mb-3">
+          <nav class="navbar navbar-light">
             <b class="navbar-brand"><%= @room.name %></b>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                Hi,
-                <b class="text-success"><%= current_user.user_name %></b>
-              </li>
-            </ul>
+            <small><%= @room.users.pluck(:id).uniq.count %> members</small>
           </nav>
 
-          <div id="js-messages-container">
-            <%= render partial: 'messages/message', collection: @room.messages.includes(:user) %>
+          <div id="js-messages-container" class="messages-area">
+            <%= render partial: 'messages/message', collection: @messages %>
           </div>
 
-          <div class="chat-box p-1">
+          <div class="chat-box">
             <%= render 'messages/form', room: @room, message: Message.new %>
           </div>
         </div>

@@ -1,10 +1,8 @@
 <%= form_with(model: room, local: true) do |f| %>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :name, "New Room" %>
     <%= f.text_field :name, placeholder: "Room name", autocomplete: "off", class: "form-control" %>
   </div>
 
-  <div class="actions pt-1">
-    <%= f.submit class: "btn btn-primary form-control" %>
-  </div>
+  <%= f.submit class: "btn btn-outline-primary form-control" %>
 <% end %>

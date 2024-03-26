@@ -1,8 +1,30 @@
-a { text-decoration: none !important; }
+body {
+  ::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  overflow-y: hidden;
+  padding: 1rem;
+}
 
 .chat-room {
   height: calc(100vh - 2rem);
-  overflow-y: scroll;
+
+  @keyframes smooth-appear {
+    to { opacity: 1; }
+  }
+
+  .messages-area {
+    height: 100%;
+    overflow-y: scroll;
+    padding-bottom: 200px;
+    opacity: 0;
+    animation: smooth-appear 2s ease forwards;
+  }
+
+  .navbar {
+    margin-left: -15px;
+    width: calc(100% + 30px);
+    border-bottom: 1px solid #eeeeee;
+  }
 
   .message {
     min-height: 59px;
@@ -42,12 +64,34 @@ a { text-decoration: none !important; }
 
   .chat-box {
     position: absolute;
+    bottom: -16px;
+    width: 100%;
     padding: 20px;
-    bottom: 0;
-    width: calc(100% - 15px);
+    margin-left: -15px;
+    background-color: #fff;
+    border-top: 1px solid #eeeeee;
 
-    textarea {
-      resize: none;
-    }
+    textarea { resize: none; }
   }
 }
+
+.room-link {
+  &:hover { text-decoration: none; }
+
+  .room-card {
+    transition: background-color 0.3s ease;
+    border-radius: 20px;
+
+    &:hover { background-color: #eeeeee; }
+
+    &.active {
+      background-color: #000;
+
+      .room-name, .room-members { color: #fff; }
+    }
+
+    .room-name, .room-members { color: #000; }
+  }
+}
+
+.rooms-sidebar { border-right: 1px solid #eeeeee; }

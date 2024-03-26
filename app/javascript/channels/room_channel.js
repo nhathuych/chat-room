@@ -1,15 +1,18 @@
 import consumer from "./consumer"
 
-// room switched
+// on room switched event
+// data-turbolinks-track file included at application.html.erb
 document.addEventListener('turbolinks:load', () => {
   const roomId = Number(document.getElementById('js-room-id').getAttribute('data-room-id'))
+  const msgContainer = document.getElementById('js-messages-container')
 
   disconnectAllChannel(consumer)
 
   consumer.subscriptions.create({ channel: "RoomChannel", room_id: roomId }, {
     connected() {
       // Called when the subscription is ready for use on the server
-      console.log(`room ${roomId} connected...`)
+      console.log(`Room ${roomId} connected...`)
+      if (msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight
     },
 
     disconnected() {
@@ -20,11 +23,11 @@ document.addEventListener('turbolinks:load', () => {
       // Called when there's incoming data on the websocket for this channel
       const userId = Number(document.getElementById('js-user-id').getAttribute('data-user-id'))
       const html = (userId == data.message.user_id) ? data.mine : data.theirs
-      const msgContainer = document.getElementById('js-messages-container')
       const msgInput = document.getElementById('message_body')
 
       console.log(html)
       msgContainer.innerHTML += html
+      msgContainer.scrollTop = msgContainer.scrollHeight
       msgInput.value = ''
       msgInput.focus()
     }
@@ -32,8 +35,6 @@ document.addEventListener('turbolinks:load', () => {
 })
 
 function disconnectAllChannel(consumer) {
-  console.log(consumer.subscriptions)
-
   consumer.subscriptions.subscriptions.forEach((subscription) => {
     consumer.subscriptions.remove(subscription)
   })

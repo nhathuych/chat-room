@@ -1,12 +1,14 @@
 class RoomsController < ApplicationController
-  before_action :load_room, only: [:show]
+  before_action :load_room, only: :show
 
   def index
     @rooms = Room.all
   end
 
   def show
-    @rooms = Room.all
+    @rooms    = Room.all
+    @messages = @room.messages.includes(:user)
+
     render :index
   end
 
