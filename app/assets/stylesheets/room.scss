@@ -95,3 +95,13 @@ body {
 }
 
 .rooms-sidebar { border-right: 1px solid #eeeeee; }
+
+.activity-status {
+  color: #e0e0e0;
+  font-size: 21px;
+  float: left;
+  margin-top: -6px;
+  margin-right: 4px;
+
+  &.online { color: #ff0000; }
+}

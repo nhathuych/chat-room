@@ -13,11 +13,14 @@ class RoomsController < ApplicationController
   end
 
   def create
-    if Room.create(room_params)
+    room = Room.new(room_params)
+
+    if room.valid? && room.save
       @rooms = Room.all
       return render :index
     end
-    render :new
+
+    redirect_to request.referer
   end
 
   private

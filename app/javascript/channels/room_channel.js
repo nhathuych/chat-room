@@ -3,6 +3,7 @@ import consumer from "./consumer"
 // on room switched event
 // data-turbolinks-track file included at application.html.erb
 document.addEventListener('turbolinks:load', () => {
+  const userId = Number(document.getElementById('js-user-id').getAttribute('data-user-id'))
   const roomId = Number(document.getElementById('js-room-id').getAttribute('data-room-id'))
   const msgContainer = document.getElementById('js-messages-container')
 
@@ -21,7 +22,6 @@ document.addEventListener('turbolinks:load', () => {
 
     received(data) {
       // Called when there's incoming data on the websocket for this channel
-      const userId = Number(document.getElementById('js-user-id').getAttribute('data-user-id'))
       const html = (userId == data.message.user_id) ? data.mine : data.theirs
       const msgInput = document.getElementById('message_body')
 
@@ -36,6 +36,8 @@ document.addEventListener('turbolinks:load', () => {
 
 function disconnectAllChannel(consumer) {
   consumer.subscriptions.subscriptions.forEach((subscription) => {
-    consumer.subscriptions.remove(subscription)
+    if (JSON.parse(subscription.identifier).channel == 'RoomChannel') {
+      consumer.subscriptions.remove(subscription)
+    }
   })
 }
