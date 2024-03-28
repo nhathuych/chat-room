@@ -4,7 +4,7 @@ default: &default
 
 development:
   <<: *default
-  database: chat_app_development
+  database: chat_room_development
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
   username: nhathuy
